@@ -1,4 +1,4 @@
-from Process import create_dir
+from .Process import create_dir
 
 import multiprocessing as mp
 import warnings
