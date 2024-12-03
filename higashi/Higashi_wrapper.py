@@ -1,3 +1,5 @@
+from .Process import create_dir
+
 import multiprocessing as mp
 import warnings
 import torch.optim
@@ -32,6 +34,8 @@ except:
 
 torch.backends.cudnn.benchmark = True
 torch.set_default_dtype(torch.float32)
+
+
 
 
 def parse_args():
@@ -438,18 +442,14 @@ def mp_impute(config_path, path, name, mode, cell_start, cell_end, sparse_path, 
 
 class Higashi():
 	def __init__(self, config_path):
-		super().__init__()
 		self.config_path = config_path
 		self.config = get_config(config_path)
-		try:
-			from .Process import create_dir
-		except:
-			from Process import create_dir
 			
 		create_dir(self.config)
 		warnings.filterwarnings("ignore")
-		rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
-		resource.setrlimit(resource.RLIMIT_NOFILE, (3600, rlimit[1]))
+		# Set new soft limit for concurrent open files.
+		resource_limit = resource.getrlimit(resource.RLIMIT_NOFILE)
+		resource.setrlimit(resource.RLIMIT_NOFILE, (3600, resource_limit[1]))
 		
 		
 	# For processing data: old Process.py
