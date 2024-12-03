@@ -438,7 +438,6 @@ def mp_impute(config_path, path, name, mode, cell_start, cell_end, sparse_path, 
 
 class Higashi():
 	def __init__(self, config_path):
-		super().__init__()
 		self.config_path = config_path
 		self.config = get_config(config_path)
 		try:
